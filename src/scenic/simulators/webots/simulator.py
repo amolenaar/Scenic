@@ -111,6 +111,13 @@ class WebotsSimulation(Simulation):
                 obj.heading + obj.rotationOffset
             )
             webotsObj.getField('rotation').setSFRotation(rot)
+
+            # Webots Box
+            # TODO: Will the w/l/h work across different coordinate systems?
+            if obj.webotsType == "Box":
+                field = webotsObj.getField('size')
+                field.setSFVec3f([obj.width, obj.length, obj.height])
+
             # battery
             battery = getattr(obj, 'battery', None)
             if battery:
@@ -135,7 +142,8 @@ class WebotsSimulation(Simulation):
                     # the following operation also causes the controller to be restarted
                     controllerField.setSFString(obj.controller)
                 elif obj.resetController:
-                    webotsObj.restartController()
+                 
+                   webotsObj.restartController()
 
     def createObjectInSimulator(self, obj):
         raise RuntimeError('the Webots interface does not support dynamic object creation')

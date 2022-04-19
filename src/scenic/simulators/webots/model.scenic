@@ -193,3 +193,32 @@ class Hill(Terrain):
         sx, sy = dx / (self.width * self.spread), dy / (self.length * self.spread)
         nh = math.exp(-((sx * sx) + (sy * sy)) * 0.5)
         return self.height * nh
+
+class Hill(Terrain):
+    """`Terrain` shaped like a Gaussian.
+
+    Attributes:
+        height (float): height of the hill (default 1).
+        spread (float): standard deviation as a fraction of the hill's size
+            (default 3).
+    """
+
+    height: 1
+    spread: 0.25
+
+    def heightAtOffset(self, offset):
+        dx, dy = offset
+        if not (-self.hw < dx < self.hw and -self.hl < dy < self.hl):
+            return 0
+        sx, sy = dx / (self.width * self.spread), dy / (self.length * self.spread)
+        nh = math.exp(-((sx * sx) + (sy * sy)) * 0.5)
+        return self.height * nh
+
+class Box(WebotsObject):
+    """A solid box"""
+    width: 1
+    length: 1
+    height: 1
+    elevation: self.height/2
+    webotsType: "Box"
+
